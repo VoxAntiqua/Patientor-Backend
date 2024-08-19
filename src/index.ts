@@ -1,5 +1,5 @@
 import express from 'express';
-const cors = require('cors');
+import cors from 'cors';
 import diagnosisRouter from './routes/diagnoses';
 import patientRouter from './routes/patients';
 const app = express();
