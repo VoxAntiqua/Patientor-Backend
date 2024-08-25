@@ -42,7 +42,7 @@ const parseOccupation = (occupation: unknown): string => {
   return occupation;
 };
 
-const parseGender = (gender: unknown): string => {
+const parseGender = (gender: unknown): Gender => {
   if (!gender || !isString(gender) || !isGender(gender)) {
     throw new Error('Incorrect or missing gender');
   }
