@@ -83,6 +83,12 @@ export const toNewPatient = (object: unknown): NewPatient => {
 
 // Functions for parsing and validating new entry data
 
+const isStringArray = (array: unknown): array is string[] => {
+  return (
+    Array.isArray(array) && array.every((item) => typeof item === 'string')
+  );
+};
+
 const parseDescription = (description: unknown): string => {
   if (!description || !isString(description)) {
     throw new Error('Incorrect or missing description');
@@ -135,13 +141,16 @@ const parseEmployerName = (employer: unknown): string => {
   return employer;
 };
 
-const parseDiagnosisCodes = (object: unknown): Array<Diagnosis['code']> => {
-  if (!object || typeof object !== 'object' || !('diagnosisCodes' in object)) {
-    // we will just trust the data to be in correct form
-    return [] as Array<Diagnosis['code']>;
+const parseDiagnosisCodes = (codes: unknown): Array<Diagnosis['code']> => {
+  if (!codes) {
+    return [];
   }
 
-  return object.diagnosisCodes as Array<Diagnosis['code']>;
+  if (!isStringArray(codes)) {
+    throw new Error('Incorrect or missing diagnosis codes');
+  }
+
+  return codes;
 };
 
 export const toNewEntry = (object: unknown): NewEntry => {
